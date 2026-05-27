@@ -1,9 +1,9 @@
 'use client'
 
 import { createContext, useContext, useState, type ReactNode } from 'react'
-import { it } from '@/locales/it'
+import { it, type Translations } from '@/locales/it'
 import { en } from '@/locales/en'
-import type { Language, Translations } from '@/types'
+import type { Language } from '@/types'
 
 const translations: Record<Language, Translations> = { it, en }
 
