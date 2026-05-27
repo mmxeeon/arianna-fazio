@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+:root {
+  --color-ivory: #FAFAF8;
+  --color-beige: #F2EDE4;
+  --color-sand: #E5DDD3;
+  --color-warm-gray: #7A706A;
+  --color-soft-black: #1C1C1A;
+  --color-gold: #C9A870;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-ivory text-soft-black font-sans;
+    letter-spacing: 0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+    font-weight: 400;
+  }
+
+  ::selection {
+    background-color: var(--color-sand);
+    color: var(--color-soft-black);
+  }
+
+  * {
+    @apply border-sand;
+  }
+
+  img {
+    @apply select-none;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply px-5 sm:px-8 lg:px-16 xl:px-24;
+  }
+
+  .page-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .heading-display {
+    @apply font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-tight;
+  }
+
+  .heading-xl {
+    @apply font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.1] tracking-tight;
+  }
+
+  .heading-lg {
+    @apply font-serif text-3xl sm:text-4xl leading-[1.15];
+  }
+
+  .heading-md {
+    @apply font-serif text-2xl sm:text-3xl leading-snug;
+  }
+
+  .heading-sm {
+    @apply font-serif text-xl sm:text-2xl leading-snug;
+  }
+
+  .label-caps {
+    @apply font-sans text-xs tracking-[0.15em] uppercase text-warm-gray-600;
+  }
+
+  .divider {
+    @apply border-t border-sand my-16 sm:my-24;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-soft-black text-ivory font-sans text-sm tracking-widest uppercase transition-all duration-300 hover:bg-warm-gray-800 active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-soft-black text-soft-black font-sans text-sm tracking-widest uppercase transition-all duration-300 hover:bg-soft-black hover:text-ivory active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-warm-gray-600 font-sans text-sm tracking-wide transition-colors duration-200 hover:text-soft-black;
+  }
+
+  .input-field {
+    @apply w-full bg-transparent border-b border-sand py-3 text-soft-black placeholder:text-warm-gray-400 focus:outline-none focus:border-soft-black transition-colors duration-200 font-sans text-sm;
+  }
+
+  .textarea-field {
+    @apply w-full bg-transparent border-b border-sand py-3 text-soft-black placeholder:text-warm-gray-400 focus:outline-none focus:border-soft-black transition-colors duration-200 font-sans text-sm resize-none;
+  }
+
+  .artwork-card {
+    @apply group cursor-pointer;
+  }
+
+  .artwork-card-image {
+    @apply relative overflow-hidden bg-beige aspect-artwork;
+  }
+
+  .artwork-card-image img {
+    @apply w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04];
+  }
+
+  .status-badge-available {
+    @apply inline-flex items-center gap-1.5 text-xs font-sans tracking-wide text-emerald-700;
+  }
+
+  .status-badge-sold {
+    @apply inline-flex items-center gap-1.5 text-xs font-sans tracking-wide text-warm-gray-500 line-through;
+  }
+
+  .status-badge-unavailable {
+    @apply inline-flex items-center gap-1.5 text-xs font-sans tracking-wide text-warm-gray-400;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-400 { animation-delay: 400ms; }
+  .animation-delay-500 { animation-delay: 500ms; }
+  .animation-delay-600 { animation-delay: 600ms; }
+
+  .opacity-0-start { opacity: 0; }
+}
+
+/* Scrollbar sottile */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-ivory); }
+::-webkit-scrollbar-thumb { background: var(--color-sand); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-warm-gray); }
