@@ -41,11 +41,11 @@ export function Hero() {
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex items-center justify-center gap-3 mb-8"
+          className="flex items-center justify-center gap-3 mb-6"
         >
-          <span className="h-px w-12 bg-rose-500" />
+          <span className="h-px w-8 bg-rose-500" />
           <span className="w-1.5 h-1.5 rotate-45 bg-rose-500" />
-          <span className="h-px w-12 bg-rose-500" />
+          <span className="h-px w-8 bg-rose-500" />
         </motion.div>
 
         <motion.h1
