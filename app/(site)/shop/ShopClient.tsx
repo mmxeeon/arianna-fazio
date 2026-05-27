@@ -50,17 +50,21 @@ export function ShopClient({ artworks }: ShopClientProps) {
     <div className="pt-24 sm:pt-28 pb-20 sm:pb-28">
 
       {/* Hero strip */}
-      <div className="relative overflow-hidden bg-floral-hero py-16 sm:py-20 mb-12 sm:mb-16">
+      <div className="relative overflow-hidden py-20 sm:py-24 mb-12 sm:mb-16">
+        <div className="absolute inset-0">
+          <img src="/images/section-bg.jpg" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-cream/40" />
+        </div>
         <div className="section-padding page-max text-center relative z-10">
-          <p className="label-caps mb-4">{t.shop.subtitle}</p>
+          <p className="label-caps mb-4">Opere originali disponibili</p>
 
           <div className="flex items-center justify-center gap-3 mb-5">
-            <span className="h-px w-12 bg-rose-300" />
+            <span className="h-px w-12 bg-rose-500" />
             <span className="w-1.5 h-1.5 rotate-45 bg-rose-500" />
-            <span className="h-px w-12 bg-rose-300" />
+            <span className="h-px w-12 bg-rose-500" />
           </div>
 
-          <h1 className="heading-xl mb-4">{t.shop.title}</h1>
+          <h1 className="heading-xl mb-4">Shop</h1>
           <p className="font-sans text-sm text-ink-light max-w-lg mx-auto">
             Scopri opere originali dipinte a mano con passione e dedizione,
             <br className="hidden sm:block" />

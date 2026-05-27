@@ -36,7 +36,7 @@ export function AboutClient() {
           className="relative aspect-square lg:aspect-auto lg:min-h-[600px]"
         >
           <Image
-            src="https://images.unsplash.com/photo-1582482851-5d4bd2c4d111?w=1000&q=80"
+            src="/images/atelier.jpg"
             alt="Atelier di Arianna Fazio"
             fill
             className="object-cover"

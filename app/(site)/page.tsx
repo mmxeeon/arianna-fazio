@@ -3,7 +3,6 @@ import { createClient } from '@/lib/supabase/server'
 import { Hero } from '@/components/home/Hero'
 import { FeaturedWorks } from '@/components/home/FeaturedWorks'
 import { AboutPreview } from '@/components/home/AboutPreview'
-import { CTA } from '@/components/home/CTA'
 import type { Artwork } from '@/types'
 
 export const metadata: Metadata = {
@@ -17,9 +16,8 @@ async function getFeaturedArtworks(): Promise<Artwork[]> {
     const { data } = await supabase
       .from('artworks')
       .select('*')
-      .eq('featured', true)
       .order('created_at', { ascending: false })
-      .limit(3)
+      .limit(4)
     return data ?? []
   } catch {
     return []
@@ -34,7 +32,6 @@ export default async function HomePage() {
       <Hero />
       <FeaturedWorks artworks={featured} />
       <AboutPreview />
-      <CTA />
     </>
   )
 }
