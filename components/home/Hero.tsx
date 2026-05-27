@@ -9,7 +9,7 @@ export function Hero() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden pt-20 pb-16">
+    <section className="relative min-h-[68vh] sm:min-h-[72vh] flex items-center justify-center overflow-hidden pt-24 pb-12">
 
       {/* Background floral image (full width) */}
       <div className="absolute inset-0">
