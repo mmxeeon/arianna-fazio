@@ -9,8 +9,14 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-import { MessageCircle, Instagram, Mail } from 'lucide-react'
+import { Instagram, Mail } from 'lucide-react'
 import toast from 'react-hot-toast'
+
+const TikTokIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.55V6.79a4.85 4.85 0 01-1.07-.1z"/>
+  </svg>
+)
 
 const schema = z.object({
   name: z.string().min(2),
@@ -121,31 +127,33 @@ export function ContattiClient() {
           >
             <div>
               <p className="label-caps mb-5">{t.contact.infoTitle}</p>
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 <a
-                  href="mailto:info@ariannafazio.it"
+                  href="mailto:ari.fazio07@gmail.com"
                   className="flex items-center gap-3 font-sans text-sm text-warm-gray-700 hover:text-soft-black transition-colors group"
                 >
-                  <Mail size={16} className="text-warm-gray-400 group-hover:text-gold transition-colors" />
-                  info@ariannafazio.it
+                  <Mail size={16} className="text-warm-gray-400 group-hover:text-gold transition-colors flex-shrink-0" />
+                  ari.fazio07@gmail.com
                 </a>
                 <a
-                  href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}`}
+                  href="https://www.instagram.com/ariannaafazioo/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 font-sans text-sm text-warm-gray-700 hover:text-soft-black transition-colors group"
                 >
-                  <MessageCircle size={16} className="text-warm-gray-400 group-hover:text-gold transition-colors" />
-                  {t.contact.whatsappText}
+                  <Instagram size={16} className="text-warm-gray-400 group-hover:text-gold transition-colors flex-shrink-0" />
+                  @ariannaafazioo
                 </a>
                 <a
-                  href="https://instagram.com/ariannafazio"
+                  href="https://www.tiktok.com/@arianna.fazioo"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 font-sans text-sm text-warm-gray-700 hover:text-soft-black transition-colors group"
                 >
-                  <Instagram size={16} className="text-warm-gray-400 group-hover:text-gold transition-colors" />
-                  @ariannafazio
+                  <span className="text-warm-gray-400 group-hover:text-gold transition-colors flex-shrink-0">
+                    <TikTokIcon />
+                  </span>
+                  @arianna.fazioo
                 </a>
               </div>
             </div>

@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, MessageCircle, Mail, ShoppingBag, Check } from 'lucide-react'
+import { ArrowLeft, ShoppingBag, Check, CreditCard, Lock } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useCartStore } from '@/store/cartStore'
 import { ImageGallery } from '@/components/artwork/ImageGallery'
@@ -21,21 +22,31 @@ interface Props {
 export function ArtworkDetailClient({ artwork, related }: Props) {
   const { t, language } = useLanguage()
   const { addItem, items } = useCartStore()
+  const [checkingOut, setCheckingOut] = useState(false)
 
   const inCart = items.some((i) => i.artwork.id === artwork.id)
   const isAvailable = artwork.status === 'available'
 
-  const whatsappMessage = encodeURIComponent(
-    `Ciao Arianna, sono interessato all'opera "${artwork.title}" (${artwork.dimensions ?? ''}, ${artwork.year ?? ''}). Potrei avere più informazioni?`
-  )
-  const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${whatsappMessage}`
-
-  const emailSubject = encodeURIComponent(`Informazioni su: ${artwork.title}`)
-  const emailUrl = `/contatti?opera=${artwork.slug}`
-
   const handleAddToCart = () => {
     addItem(artwork)
     toast.success(`"${artwork.title}" aggiunto al carrello`)
+  }
+
+  const handleBuyNow = async () => {
+    setCheckingOut(true)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ artworkIds: [artwork.id] }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      window.location.href = data.url
+    } catch (err: any) {
+      toast.error(err.message || 'Errore nel pagamento. Riprova.')
+      setCheckingOut(false)
+    }
   }
 
   const details = [
@@ -116,48 +127,71 @@ export function ArtworkDetailClient({ artwork, related }: Props) {
             )}
 
             {/* Actions */}
-            <div className="flex flex-col gap-3 mt-auto">
-              {isAvailable && (
+            {isAvailable && (
+              <div className="flex flex-col gap-3 mt-auto">
+                {/* Buy Now — Stripe */}
+                <Button
+                  onClick={handleBuyNow}
+                  loading={checkingOut}
+                  size="lg"
+                  className="w-full"
+                >
+                  <CreditCard size={15} />
+                  {checkingOut ? t.checkout.processing : t.checkout.buyNow}
+                </Button>
+
+                {/* Payment methods badge */}
+                <div className="flex items-center justify-center gap-2 py-2">
+                  <Lock size={11} className="text-warm-gray-300" />
+                  <span className="font-sans text-xs text-warm-gray-400">{t.checkout.paymentMethods}</span>
+                </div>
+
+                {/* Divider */}
+                <div className="relative my-1">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-sand" />
+                  </div>
+                  <div className="relative flex justify-center">
+                    <span className="bg-ivory px-3 font-sans text-xs text-warm-gray-400">oppure</span>
+                  </div>
+                </div>
+
+                {/* Add to cart */}
                 <Button
                   onClick={handleAddToCart}
-                  variant={inCart ? 'outline' : 'primary'}
-                  className="w-full"
+                  variant={inCart ? 'ghost' : 'outline'}
+                  className="w-full border-sand"
                 >
                   {inCart ? (
                     <>
-                      <Check size={15} />
+                      <Check size={14} />
                       {t.artwork.alreadyInCart}
                     </>
                   ) : (
                     <>
-                      <ShoppingBag size={15} />
+                      <ShoppingBag size={14} />
                       {t.artwork.addToCart}
                     </>
                   )}
                 </Button>
-              )}
+              </div>
+            )}
 
-              <div className="grid grid-cols-2 gap-3">
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline justify-center text-center"
-                >
-                  <MessageCircle size={14} />
-                  <span className="hidden sm:inline">WhatsApp</span>
-                  <span className="sm:hidden">WA</span>
-                </a>
-                <Link href={emailUrl} className="btn-ghost border border-sand justify-center">
-                  <Mail size={14} />
-                  Email
+            {!isAvailable && (
+              <div className="mt-4 py-4 text-center border border-sand">
+                <p className="font-sans text-sm text-warm-gray-400">
+                  {artwork.status === 'sold' ? 'Quest\'opera è stata venduta.' : 'Quest\'opera non è al momento disponibile.'}
+                </p>
+                <Link href="/contatti" className="mt-3 inline-block font-sans text-xs underline text-warm-gray-500 hover:text-soft-black transition-colors">
+                  Richiedi un'opera simile →
                 </Link>
               </div>
-            </div>
+            )}
 
-            {/* Payment note */}
-            <p className="mt-6 font-sans text-xs text-warm-gray-400 leading-relaxed">
-              {t.cart.paymentNote}
+            {/* Secure badge */}
+            <p className="mt-6 flex items-center justify-center gap-1.5 font-sans text-xs text-warm-gray-300">
+              <Lock size={11} />
+              {t.checkout.secure}
             </p>
           </motion.div>
         </div>

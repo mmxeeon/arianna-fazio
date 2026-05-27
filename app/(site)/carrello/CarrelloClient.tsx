@@ -1,30 +1,37 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Trash2, ShoppingBag, MessageCircle, Mail, ArrowLeft } from 'lucide-react'
+import { Trash2, ShoppingBag, ArrowLeft, CreditCard, Lock } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useCartStore } from '@/store/cartStore'
 import { formatPrice } from '@/lib/utils'
+import { Button } from '@/components/ui/Button'
+import toast from 'react-hot-toast'
 
 export function CarrelloClient() {
   const { t, language } = useLanguage()
   const { items, removeItem, total } = useCartStore()
+  const [checkingOut, setCheckingOut] = useState(false)
 
-  const whatsappItems = items
-    .map((i) => `• ${i.artwork.title} — ${formatPrice(i.artwork.price ?? 0, language)}`)
-    .join('\n')
-  const whatsappMessage = encodeURIComponent(
-    `Ciao Arianna! Vorrei acquistare le seguenti opere:\n${whatsappItems}\n\nTotale: ${formatPrice(total(), language)}`
-  )
-  const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${whatsappMessage}`
-
-  const emailSubject = encodeURIComponent('Acquisto opere')
-  const emailBody = encodeURIComponent(
-    `Ciao Arianna,\n\nVorrei acquistare:\n${whatsappItems}\n\nTotale: ${formatPrice(total(), language)}\n\nAttendo tue indicazioni per procedere.`
-  )
-  const emailUrl = `mailto:info@ariannafazio.it?subject=${emailSubject}&body=${emailBody}`
+  const handleCheckout = async () => {
+    setCheckingOut(true)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ artworkIds: items.map((i) => i.artwork.id) }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      window.location.href = data.url
+    } catch (err: any) {
+      toast.error(err.message || 'Errore nel pagamento. Riprova.')
+      setCheckingOut(false)
+    }
+  }
 
   if (items.length === 0) {
     return (
@@ -65,7 +72,6 @@ export function CarrelloClient() {
                   transition={{ duration: 0.35 }}
                   className="flex gap-5 sm:gap-6 py-6 border-b border-sand"
                 >
-                  {/* Thumbnail */}
                   <Link href={`/shop/${item.artwork.slug}`} className="flex-shrink-0">
                     <div className="w-24 h-32 sm:w-28 sm:h-36 overflow-hidden bg-beige">
                       <Image
@@ -78,7 +84,6 @@ export function CarrelloClient() {
                     </div>
                   </Link>
 
-                  {/* Info */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <Link href={`/shop/${item.artwork.slug}`}>
@@ -127,26 +132,44 @@ export function CarrelloClient() {
                 ))}
               </div>
 
-              <div className="flex justify-between mb-8">
+              <div className="flex justify-between mb-6">
                 <span className="font-sans text-sm font-medium">{t.cart.total}</span>
                 <span className="font-serif text-xl">{formatPrice(total(), language)}</span>
               </div>
 
-              <p className="font-sans text-xs text-warm-gray-500 mb-4">{t.cart.checkoutNote}</p>
+              {/* Stripe Checkout */}
+              <Button
+                onClick={handleCheckout}
+                loading={checkingOut}
+                className="w-full mb-3"
+                size="lg"
+              >
+                <CreditCard size={15} />
+                {checkingOut ? t.checkout.processing : t.checkout.buyNow}
+              </Button>
 
-              <div className="flex flex-col gap-3">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn-primary justify-center">
-                  <MessageCircle size={15} />
-                  {t.cart.checkoutWhatsApp}
-                </a>
-                <a href={emailUrl} className="btn-outline justify-center">
-                  <Mail size={15} />
-                  {t.cart.checkoutEmail}
-                </a>
+              {/* Payment methods */}
+              <div className="flex items-center justify-center gap-1.5 mb-4">
+                <Lock size={11} className="text-warm-gray-300" />
+                <span className="font-sans text-xs text-warm-gray-400">{t.checkout.paymentMethods}</span>
               </div>
 
-              <p className="mt-5 font-sans text-xs text-warm-gray-400 leading-relaxed">
-                {t.cart.paymentNote}
+              {/* Payment icons */}
+              <div className="flex items-center justify-center gap-3 py-3 border-t border-sand/50">
+                {/* Visa */}
+                <div className="bg-white rounded px-2 py-1 text-[10px] font-bold text-blue-700 tracking-wide border border-sand">VISA</div>
+                {/* MC */}
+                <div className="bg-white rounded px-2 py-1 text-[10px] font-bold text-red-600 tracking-wide border border-sand">MC</div>
+                {/* PayPal */}
+                <div className="bg-white rounded px-2 py-1 text-[10px] font-bold text-blue-500 tracking-wide border border-sand">PayPal</div>
+                {/* Apple Pay */}
+                <div className="bg-white rounded px-2 py-1 text-[10px] font-bold text-soft-black tracking-wide border border-sand"> Pay</div>
+                {/* Google Pay */}
+                <div className="bg-white rounded px-2 py-1 text-[10px] font-bold text-soft-black tracking-wide border border-sand">G Pay</div>
+              </div>
+
+              <p className="mt-4 font-sans text-xs text-warm-gray-400 text-center leading-relaxed">
+                {t.checkout.secure}
               </p>
             </div>
           </div>

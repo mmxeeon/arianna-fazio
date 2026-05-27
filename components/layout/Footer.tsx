@@ -38,23 +38,31 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Contacts */}
+          {/* Social & Contacts */}
           <div>
             <p className="label-caps text-ivory/40 mb-5">Contatti</p>
             <div className="flex flex-col gap-3">
               <a
-                href="mailto:info@ariannafazio.it"
+                href="mailto:ari.fazio07@gmail.com"
                 className="font-sans text-sm text-ivory/60 hover:text-ivory transition-colors duration-200"
               >
-                info@ariannafazio.it
+                ari.fazio07@gmail.com
               </a>
               <a
-                href="https://instagram.com/ariannafazio"
+                href="https://www.instagram.com/ariannaafazioo/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-sans text-sm text-ivory/60 hover:text-ivory transition-colors duration-200"
               >
-                Instagram
+                Instagram — @ariannaafazioo
+              </a>
+              <a
+                href="https://www.tiktok.com/@arianna.fazioo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-sm text-ivory/60 hover:text-ivory transition-colors duration-200"
+              >
+                TikTok — @arianna.fazioo
               </a>
             </div>
           </div>
