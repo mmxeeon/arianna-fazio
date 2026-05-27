@@ -83,8 +83,9 @@ export function ArtworkForm({ artwork }: ArtworkFormProps) {
       }
       router.push('/admin/artworks')
       router.refresh()
-    } catch (err) {
-      toast.error('Errore nel salvataggio. Riprova.')
+    } catch (err: any) {
+      console.error('Save artwork error:', err)
+      toast.error(err?.message || 'Errore nel salvataggio. Riprova.')
     }
   }
 
