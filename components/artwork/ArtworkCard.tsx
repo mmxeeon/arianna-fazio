@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { StatusBadge } from '@/components/ui/Badge'
 import { formatPrice } from '@/lib/utils'
 import type { Artwork } from '@/types'
 
@@ -18,12 +17,6 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
 
   const isSold = artwork.status === 'sold'
 
-  const statusLabels = {
-    available: t.artwork.available,
-    sold: t.artwork.sold,
-    unavailable: t.artwork.unavailable,
-  }
-
   return (
     <Link href={`/shop/${artwork.slug}`} className="artwork-card block group">
       {/* Image */}
@@ -33,47 +26,48 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
           alt={artwork.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
         />
 
         {/* Sold overlay */}
         {isSold && (
-          <div className="absolute inset-0 bg-soft-black/30 flex items-center justify-center">
-            <span className="font-sans text-xs tracking-[0.2em] uppercase text-ivory/90 border border-ivory/50 px-4 py-2">
+          <div className="absolute inset-0 bg-wine/30 flex items-center justify-center">
+            <span className="font-sans text-xs tracking-[0.2em] uppercase text-cream border border-cream/60 px-4 py-2 bg-wine/40">
               {t.artwork.sold}
             </span>
           </div>
         )}
-
-        {/* Hover overlay */}
-        {!isSold && (
-          <div className="absolute inset-0 bg-soft-black/0 group-hover:bg-soft-black/10 transition-colors duration-500" />
-        )}
       </div>
 
       {/* Info */}
-      <div className="pt-4 pb-1">
-        <div className="flex items-start justify-between gap-2 mb-1.5">
-          <h3 className="font-serif text-lg leading-snug text-soft-black group-hover:text-warm-gray-700 transition-colors duration-200 flex-1">
-            {artwork.title}
-          </h3>
-          {artwork.price && (
-            <span className="font-sans text-sm text-soft-black flex-shrink-0">
-              {formatPrice(artwork.price, language)}
-            </span>
-          )}
-        </div>
+      <div className="pt-5 text-center">
+        <h3 className="font-serif text-xl text-wine mb-1 group-hover:text-wine-light transition-colors duration-200">
+          {artwork.title}
+        </h3>
 
-        {artwork.technique && (
-          <p className="font-sans text-xs text-warm-gray-500 mb-2">{artwork.technique}</p>
+        {artwork.category && (
+          <p className="label-caps text-rose-500 mb-2 text-[10px]">{artwork.category}</p>
         )}
 
-        <StatusBadge
-          status={artwork.status}
-          labelAvailable={statusLabels.available}
-          labelSold={statusLabels.sold}
-          labelUnavailable={statusLabels.unavailable}
-        />
+        {artwork.price && (
+          <p className="font-serif text-lg text-wine">
+            {formatPrice(artwork.price, language)}
+          </p>
+        )}
+
+        {/* Status dot */}
+        <div className="flex items-center justify-center gap-1.5 mt-2">
+          <span className={`w-1.5 h-1.5 rounded-full ${
+            artwork.status === 'available' ? 'bg-emerald-500' :
+            artwork.status === 'sold' ? 'bg-rose-500' : 'bg-rose-300'
+          }`} />
+          <span className={`font-sans text-xs ${
+            artwork.status === 'available' ? 'text-emerald-700' :
+            artwork.status === 'sold' ? 'text-rose-500' : 'text-rose-300'
+          }`}>
+            {artwork.status === 'available' ? t.artwork.available : artwork.status === 'sold' ? t.artwork.sold : t.artwork.unavailable}
+          </span>
+        </div>
       </div>
     </Link>
   )

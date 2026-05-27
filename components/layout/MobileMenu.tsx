@@ -16,11 +16,8 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const { t, language, setLanguage } = useLanguage()
 
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    if (open) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = ''
     return () => { document.body.style.overflow = '' }
   }, [open])
 
@@ -40,7 +37,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 bg-soft-black/40 z-40 lg:hidden"
+            className="fixed inset-0 bg-wine/40 z-40 lg:hidden"
             onClick={onClose}
           />
 
@@ -49,13 +46,13 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.35, ease: [0.32, 0, 0.67, 0] }}
-            className="fixed top-0 right-0 h-full w-80 max-w-full bg-ivory z-50 flex flex-col lg:hidden"
+            className="fixed top-0 right-0 h-full w-80 max-w-full bg-cream z-50 flex flex-col lg:hidden"
           >
-            <div className="flex items-center justify-between p-6 border-b border-sand">
-              <span className="font-serif text-lg">Menu</span>
+            <div className="flex items-center justify-between p-6 border-b border-rose-200">
+              <span className="font-serif text-xl text-wine">Menu</span>
               <button
                 onClick={onClose}
-                className="p-1 text-warm-gray-600 hover:text-soft-black transition-colors"
+                className="p-1 text-wine hover:text-wine-dark transition-colors"
                 aria-label={t.nav.close}
               >
                 <X size={22} />
@@ -73,7 +70,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                   <Link
                     href={link.href}
                     onClick={onClose}
-                    className="block py-4 font-serif text-3xl text-soft-black hover:text-gold transition-colors duration-200"
+                    className="block py-4 font-serif text-3xl text-wine hover:text-rose-500 transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -81,7 +78,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
               ))}
             </nav>
 
-            <div className="p-8 border-t border-sand">
+            <div className="p-8 border-t border-rose-200">
               <div className="flex items-center gap-4">
                 <span className="label-caps">Lingua</span>
                 {(['it', 'en'] as Language[]).map((lang) => (
@@ -89,9 +86,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                     key={lang}
                     onClick={() => setLanguage(lang)}
                     className={`font-sans text-sm uppercase tracking-widest transition-colors ${
-                      language === lang
-                        ? 'text-soft-black font-medium'
-                        : 'text-warm-gray-400 hover:text-soft-black'
+                      language === lang ? 'text-wine font-medium' : 'text-ink-light hover:text-wine'
                     }`}
                   >
                     {lang}

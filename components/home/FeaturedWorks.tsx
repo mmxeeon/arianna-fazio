@@ -17,35 +17,47 @@ export function FeaturedWorks({ artworks }: FeaturedWorksProps) {
   if (artworks.length === 0) return null
 
   return (
-    <section className="section-padding page-max py-20 sm:py-28 lg:py-36">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 sm:mb-16">
-        <div>
-          <p className="label-caps mb-3">{t.home.featuredSubtitle}</p>
-          <h2 className="heading-lg">{t.home.featuredTitle}</h2>
+    <section className="section-padding page-max py-20 sm:py-28">
+      {/* Header centered */}
+      <div className="text-center mb-14 sm:mb-16">
+        <p className="label-caps mb-4">{t.home.featuredSubtitle}</p>
+
+        <div className="flex items-center justify-center gap-3 mb-5">
+          <span className="h-px w-12 bg-rose-300" />
+          <span className="w-1.5 h-1.5 rotate-45 bg-rose-500" />
+          <span className="h-px w-12 bg-rose-300" />
         </div>
-        <Link
-          href="/shop"
-          className="inline-flex items-center gap-2 font-sans text-xs tracking-widest uppercase text-warm-gray-600 hover:text-soft-black transition-colors duration-200 group"
-        >
-          {t.home.featuredCta}
-          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
-        </Link>
+
+        <h2 className="heading-lg mb-4">{t.home.featuredTitle}</h2>
+        <p className="font-sans text-sm text-ink-light max-w-md mx-auto">
+          Scopri una selezione di opere originali, dipinte a mano con passione e dedizione.
+        </p>
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
-        {artworks.slice(0, 3).map((artwork, i) => (
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8">
+        {artworks.slice(0, 4).map((artwork, i) => (
           <motion.div
             key={artwork.id}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.6, delay: i * 0.12 }}
+            transition={{ duration: 0.6, delay: i * 0.1 }}
           >
             <ArtworkCard artwork={artwork} />
           </motion.div>
         ))}
+      </div>
+
+      {/* CTA */}
+      <div className="text-center mt-14">
+        <Link
+          href="/shop"
+          className="inline-flex items-center gap-2 font-sans text-xs tracking-[0.2em] uppercase text-wine hover:text-wine-dark transition-colors duration-200 group"
+        >
+          {t.home.featuredCta}
+          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+        </Link>
       </div>
     </section>
   )

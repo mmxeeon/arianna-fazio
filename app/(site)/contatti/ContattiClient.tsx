@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -9,7 +11,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-import { Instagram, Mail } from 'lucide-react'
+import { Instagram, Mail, Clock } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const TikTokIcon = () => (
@@ -19,10 +21,10 @@ const TikTokIcon = () => (
 )
 
 const schema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
+  name: z.string().min(2, 'Nome troppo corto'),
+  email: z.string().email('Email non valida'),
   phone: z.string().optional(),
-  message: z.string().min(10),
+  message: z.string().min(10, 'Scrivi un messaggio più lungo'),
 })
 type FormData = z.infer<typeof schema>
 
@@ -51,9 +53,30 @@ export function ContattiClient() {
   }
 
   return (
-    <div className="pt-24 sm:pt-32 pb-20 sm:pb-28">
+    <div className="pt-24 sm:pt-28 pb-20 sm:pb-28">
+
+      {/* Hero strip */}
+      <div className="relative overflow-hidden bg-floral-hero py-16 sm:py-20 mb-16 sm:mb-20">
+        <div className="section-padding page-max text-center relative z-10">
+          <p className="label-caps mb-4">{t.contact.title}</p>
+
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <span className="h-px w-12 bg-rose-300" />
+            <span className="w-1.5 h-1.5 rotate-45 bg-rose-500" />
+            <span className="h-px w-12 bg-rose-300" />
+          </div>
+
+          <h1 className="heading-xl mb-4">Sono qui per risponderti.</h1>
+          <p className="font-sans text-sm text-ink-light max-w-lg mx-auto">
+            Scrivimi per richieste, informazioni o per raccontarmi la tua idea.
+            <br className="hidden sm:block" />
+            Sarà un piacere risponderti al più presto.
+          </p>
+        </div>
+      </div>
+
       <div className="section-padding page-max">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
 
           {/* Left: Form */}
           <motion.div
@@ -61,47 +84,44 @@ export function ContattiClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="label-caps mb-4">{t.contact.title}</p>
-            <h1 className="heading-lg mb-4">{t.contact.subtitle}</h1>
-
             {sent ? (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-8 py-12 text-center"
+                className="py-12 text-center"
               >
-                <p className="font-serif text-2xl mb-3 text-soft-black">Grazie!</p>
-                <p className="font-sans text-warm-gray-600">{t.contact.success}</p>
+                <p className="font-serif text-3xl mb-3 text-wine">Grazie!</p>
+                <p className="font-sans text-ink-light">{t.contact.success}</p>
                 <button
                   onClick={() => setSent(false)}
-                  className="mt-6 btn-ghost text-xs underline underline-offset-4"
+                  className="mt-6 text-xs underline underline-offset-4 text-wine hover:text-wine-dark"
                 >
                   Invia un altro messaggio
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
                 <Input
-                  label={t.contact.namePlaceholder}
+                  label="Il tuo nome"
                   placeholder={t.contact.namePlaceholder}
                   error={errors.name?.message}
                   {...register('name')}
                 />
                 <Input
-                  label={t.contact.emailPlaceholder}
+                  label="La tua email"
                   type="email"
                   placeholder={t.contact.emailPlaceholder}
                   error={errors.email?.message}
                   {...register('email')}
                 />
                 <Input
-                  label={t.contact.phonePlaceholder}
+                  label="Telefono (opzionale)"
                   type="tel"
                   placeholder={t.contact.phonePlaceholder}
                   {...register('phone')}
                 />
                 <Textarea
-                  label={t.contact.messagePlaceholder}
+                  label="Scrivi il tuo messaggio"
                   placeholder={t.contact.messagePlaceholder}
                   rows={5}
                   error={errors.message?.message}
@@ -110,9 +130,9 @@ export function ContattiClient() {
                 <Button
                   type="submit"
                   loading={isSubmitting}
-                  className="w-full sm:w-auto"
+                  className="bg-wine text-cream hover:bg-wine-dark"
                 >
-                  {isSubmitting ? t.contact.submitting : t.contact.submit}
+                  {isSubmitting ? t.contact.submitting : 'Invia messaggio'}
                 </Button>
               </form>
             )}
@@ -125,32 +145,33 @@ export function ContattiClient() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="space-y-10"
           >
+            {/* Direct contacts */}
             <div>
-              <p className="label-caps mb-5">{t.contact.infoTitle}</p>
+              <p className="label-caps mb-5">Contatti diretti</p>
               <div className="flex flex-col gap-4">
                 <a
                   href="mailto:ari.fazio07@gmail.com"
-                  className="flex items-center gap-3 font-sans text-sm text-warm-gray-700 hover:text-soft-black transition-colors group"
+                  className="flex items-center gap-3 font-sans text-sm text-ink hover:text-wine transition-colors group"
                 >
-                  <Mail size={16} className="text-warm-gray-400 group-hover:text-gold transition-colors flex-shrink-0" />
+                  <Mail size={16} className="text-rose-500 group-hover:text-wine transition-colors flex-shrink-0" />
                   ari.fazio07@gmail.com
                 </a>
                 <a
                   href="https://www.instagram.com/ariannaafazioo/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 font-sans text-sm text-warm-gray-700 hover:text-soft-black transition-colors group"
+                  className="flex items-center gap-3 font-sans text-sm text-ink hover:text-wine transition-colors group"
                 >
-                  <Instagram size={16} className="text-warm-gray-400 group-hover:text-gold transition-colors flex-shrink-0" />
+                  <Instagram size={16} className="text-rose-500 group-hover:text-wine transition-colors flex-shrink-0" />
                   @ariannaafazioo
                 </a>
                 <a
                   href="https://www.tiktok.com/@arianna.fazioo"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 font-sans text-sm text-warm-gray-700 hover:text-soft-black transition-colors group"
+                  className="flex items-center gap-3 font-sans text-sm text-ink hover:text-wine transition-colors group"
                 >
-                  <span className="text-warm-gray-400 group-hover:text-gold transition-colors flex-shrink-0">
+                  <span className="text-rose-500 group-hover:text-wine transition-colors flex-shrink-0">
                     <TikTokIcon />
                   </span>
                   @arianna.fazioo
@@ -158,14 +179,61 @@ export function ContattiClient() {
               </div>
             </div>
 
-            <div className="pt-8 border-t border-sand">
-              <p className="label-caps mb-3">{t.contact.commissionsTitle}</p>
-              <p className="font-sans text-[15px] text-warm-gray-600 leading-relaxed">
-                {t.contact.commissionsText}
+            {/* Custom commissions */}
+            <div>
+              <p className="label-caps mb-3">Commissioni personalizzate</p>
+              <p className="font-sans text-[15px] text-ink-light leading-relaxed">
+                Hai in mente un'opera specifica? Posso realizzare quadri su commissione
+                dipinti a mano, pensati su misura per te e per il tuo spazio.
+                Raccontami la tua idea, insieme troveremo la soluzione perfetta.
               </p>
+            </div>
+
+            {/* Response time box */}
+            <div className="pink-box flex gap-4 items-start">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-rose-200 flex items-center justify-center">
+                <Clock size={18} className="text-wine" strokeWidth={1.5} />
+              </div>
+              <div>
+                <p className="label-caps text-wine mb-1">Tempi di risposta</p>
+                <p className="font-sans text-sm text-ink-light leading-relaxed">
+                  Rispondo generalmente entro 24/48 ore<br />
+                  nei giorni lavorativi.
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
+
+        {/* Commissions banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mt-20 sm:mt-28 bg-rose-100 rounded-sm overflow-hidden grid grid-cols-1 sm:grid-cols-2 items-center"
+        >
+          <div className="relative aspect-[4/3] sm:aspect-auto sm:h-full sm:min-h-[280px]">
+            <Image
+              src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&q=80"
+              alt="Opere su misura"
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, 50vw"
+            />
+          </div>
+          <div className="p-8 sm:p-12">
+            <p className="label-caps mb-3">Un'opera su misura per te</p>
+            <h3 className="heading-md mb-3">Raccontami la tua idea.</h3>
+            <p className="font-sans text-sm text-ink-light mb-7 leading-relaxed">
+              Ogni storia merita di essere dipinta. Insieme daremo vita a un'opera unica,
+              pensata per emozionarti ogni giorno.
+            </p>
+            <Link href="#" className="btn-primary">
+              Raccontami la tua idea
+            </Link>
+          </div>
+        </motion.div>
       </div>
     </div>
   )
