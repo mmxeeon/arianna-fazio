@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react'
 import Image from 'next/image'
-import { Upload, X, Loader2 } from 'lucide-react'
+import { Upload, X, Loader2, Camera } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
@@ -60,17 +60,25 @@ export function ImageUploader({
 
       {value ? (
         <div className="relative group">
-          <div className="relative w-full aspect-[3/4] max-w-xs overflow-hidden bg-beige">
+          <div className="relative w-full aspect-[3/4] max-w-xs overflow-hidden bg-rose-100 rounded-sm">
             <Image src={value} alt="Preview" fill className="object-cover" sizes="320px" />
-            <div className="absolute inset-0 bg-soft-black/0 group-hover:bg-soft-black/30 transition-colors duration-200 flex items-center justify-center">
-              <button
-                type="button"
-                onClick={() => onChange('')}
-                className="opacity-0 group-hover:opacity-100 transition-opacity bg-ivory rounded-full p-2 shadow"
-              >
-                <X size={16} className="text-soft-black" />
-              </button>
-            </div>
+          </div>
+          <div className="mt-3 flex gap-2">
+            <button
+              type="button"
+              onClick={() => inputRef.current?.click()}
+              className="flex-1 px-4 py-3 border border-rose-200 text-wine font-sans text-xs tracking-widest uppercase rounded-sm hover:bg-rose-50 transition-colors min-h-[44px]"
+            >
+              Cambia
+            </button>
+            <button
+              type="button"
+              onClick={() => onChange('')}
+              className="w-12 h-12 border border-rose-200 text-red-500 flex items-center justify-center rounded-sm hover:bg-red-50 transition-colors"
+              aria-label="Rimuovi"
+            >
+              <X size={16} />
+            </button>
           </div>
         </div>
       ) : (
@@ -80,19 +88,25 @@ export function ImageUploader({
           onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files) }}
           onClick={() => inputRef.current?.click()}
           className={cn(
-            'w-full aspect-[3/4] max-w-xs border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-all duration-200',
-            dragOver ? 'border-gold bg-gold/5' : 'border-sand hover:border-warm-gray-400 bg-beige/30'
+            'w-full aspect-[3/4] max-w-xs border-2 border-dashed flex flex-col items-center justify-center gap-3 cursor-pointer transition-all duration-200 rounded-sm',
+            dragOver ? 'border-wine bg-wine/5' : 'border-rose-200 hover:border-wine bg-rose-50/30'
           )}
         >
           {uploading ? (
-            <Loader2 size={24} className="animate-spin text-warm-gray-400" />
+            <>
+              <Loader2 size={28} className="animate-spin text-wine" />
+              <p className="font-sans text-xs text-ink-light">Caricamento...</p>
+            </>
           ) : (
             <>
-              <Upload size={22} className="text-warm-gray-400" />
-              <p className="font-sans text-xs text-warm-gray-500 text-center px-4 leading-relaxed">
-                Trascina qui l'immagine<br />o <span className="underline">clicca per selezionarla</span>
+              <div className="w-14 h-14 rounded-full bg-rose-100 flex items-center justify-center">
+                <Camera size={22} className="text-wine" strokeWidth={1.5} />
+              </div>
+              <p className="font-sans text-sm text-wine text-center px-4 leading-relaxed">
+                <span className="underline underline-offset-2">Tocca per caricare</span>
+                <span className="hidden sm:inline"><br />o trascina l'immagine</span>
               </p>
-              <p className="font-sans text-[10px] text-warm-gray-300">JPG, PNG, WEBP — max 10 MB</p>
+              <p className="font-sans text-[10px] text-ink-light">JPG, PNG, WEBP</p>
             </>
           )}
         </div>
@@ -102,6 +116,7 @@ export function ImageUploader({
         ref={inputRef}
         type="file"
         accept="image/*"
+        capture="environment"
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
