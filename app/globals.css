@@ -56,23 +56,23 @@
   }
 
   .heading-display {
-    @apply font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-tight text-wine;
+    @apply font-serif text-4xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-tight text-wine;
   }
 
   .heading-xl {
-    @apply font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-wine;
+    @apply font-serif text-3xl sm:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-wine;
   }
 
   .heading-lg {
-    @apply font-serif text-3xl sm:text-4xl leading-[1.15] text-wine;
+    @apply font-serif text-[26px] sm:text-4xl leading-[1.2] text-wine;
   }
 
   .heading-md {
-    @apply font-serif text-2xl sm:text-3xl leading-snug text-wine;
+    @apply font-serif text-xl sm:text-3xl leading-snug text-wine;
   }
 
   .heading-sm {
-    @apply font-serif text-xl sm:text-2xl leading-snug text-wine;
+    @apply font-serif text-lg sm:text-2xl leading-snug text-wine;
   }
 
   .label-caps {
@@ -110,11 +110,11 @@
 
   /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-wine text-cream font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 hover:bg-wine-dark active:scale-[0.98] rounded-sm;
+    @apply inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3.5 min-h-[44px] bg-wine text-cream font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 hover:bg-wine-dark active:scale-[0.98] rounded-sm;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-wine text-wine font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 hover:bg-wine hover:text-cream active:scale-[0.98] rounded-sm;
+    @apply inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3.5 min-h-[44px] border border-wine text-wine font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 hover:bg-wine hover:text-cream active:scale-[0.98] rounded-sm;
   }
 
   .btn-ghost {
@@ -159,6 +159,18 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
   .bg-floral-hero {

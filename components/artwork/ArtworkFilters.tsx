@@ -20,63 +20,72 @@ export function ArtworkFilters({ categories, filters, onChange }: ArtworkFilters
   const { t } = useLanguage()
 
   return (
-    <div className="mb-12 sm:mb-14">
-      {/* Filter pills row */}
-      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6">
-        {/* All */}
-        <button
-          onClick={() => onChange({ ...filters, category: '', status: '' })}
-          className={cn(
-            'filter-pill',
-            filters.category === '' && filters.status === '' && 'filter-pill-active'
-          )}
-        >
-          {t.shop.filterAll}
-        </button>
+    <div className="mb-10 sm:mb-14">
+      {/* Filter pills — horizontal scroll on mobile */}
+      <div className="relative -mx-5 sm:mx-0 mb-6">
+        <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+          <div className="flex items-center gap-2.5 px-5 sm:justify-center sm:flex-wrap sm:px-0 pb-1">
+            {/* All */}
+            <button
+              onClick={() => onChange({ ...filters, category: '', status: '' })}
+              className={cn(
+                'snap-start flex-shrink-0 px-5 py-2.5 font-sans text-xs tracking-wide border rounded-sm transition-all duration-200 min-h-[40px]',
+                filters.category === '' && filters.status === ''
+                  ? 'bg-wine text-cream border-wine'
+                  : 'bg-cream-light text-ink border-rose-200 hover:border-rose-500'
+              )}
+            >
+              {t.shop.filterAll}
+            </button>
 
-        {/* Categories */}
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => onChange({ ...filters, category: cat, status: '' })}
-            className={cn(
-              'filter-pill',
-              filters.category === cat && 'filter-pill-active'
-            )}
-          >
-            {cat}
-          </button>
-        ))}
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => onChange({ ...filters, category: cat, status: '' })}
+                className={cn(
+                  'snap-start flex-shrink-0 px-5 py-2.5 font-sans text-xs tracking-wide border rounded-sm transition-all duration-200 min-h-[40px]',
+                  filters.category === cat
+                    ? 'bg-wine text-cream border-wine'
+                    : 'bg-cream-light text-ink border-rose-200 hover:border-rose-500'
+                )}
+              >
+                {cat}
+              </button>
+            ))}
 
-        {/* Available */}
-        <button
-          onClick={() => onChange({ ...filters, status: filters.status === 'available' ? '' : 'available', category: '' })}
-          className={cn(
-            'filter-pill',
-            filters.status === 'available' && 'filter-pill-active'
-          )}
-        >
-          {t.artwork.available}
-        </button>
+            <button
+              onClick={() => onChange({ ...filters, status: filters.status === 'available' ? '' : 'available', category: '' })}
+              className={cn(
+                'snap-start flex-shrink-0 px-5 py-2.5 font-sans text-xs tracking-wide border rounded-sm transition-all duration-200 min-h-[40px]',
+                filters.status === 'available'
+                  ? 'bg-wine text-cream border-wine'
+                  : 'bg-cream-light text-ink border-rose-200 hover:border-rose-500'
+              )}
+            >
+              {t.artwork.available}
+            </button>
 
-        {/* Sold */}
-        <button
-          onClick={() => onChange({ ...filters, status: filters.status === 'sold' ? '' : 'sold', category: '' })}
-          className={cn(
-            'filter-pill',
-            filters.status === 'sold' && 'filter-pill-active'
-          )}
-        >
-          {t.artwork.sold}
-        </button>
+            <button
+              onClick={() => onChange({ ...filters, status: filters.status === 'sold' ? '' : 'sold', category: '' })}
+              className={cn(
+                'snap-start flex-shrink-0 px-5 py-2.5 font-sans text-xs tracking-wide border rounded-sm transition-all duration-200 min-h-[40px]',
+                filters.status === 'sold'
+                  ? 'bg-wine text-cream border-wine'
+                  : 'bg-cream-light text-ink border-rose-200 hover:border-rose-500'
+              )}
+            >
+              {t.artwork.sold}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Sort */}
-      <div className="flex justify-end">
+      <div className="flex justify-end px-5 sm:px-0">
         <select
           value={filters.sort}
           onChange={(e) => onChange({ ...filters, sort: e.target.value as FilterState['sort'] })}
-          className="font-sans text-xs tracking-wide text-ink-light bg-transparent border-0 focus:outline-none cursor-pointer hover:text-wine transition-colors"
+          className="font-sans text-xs tracking-wide text-ink-light bg-transparent border-0 focus:outline-none cursor-pointer hover:text-wine transition-colors min-h-[40px]"
         >
           <option value="newest">{t.shop.sortNewest}</option>
           <option value="price_asc">{t.shop.sortPriceAsc}</option>

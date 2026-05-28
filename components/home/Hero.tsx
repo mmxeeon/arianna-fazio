@@ -9,69 +9,71 @@ export function Hero() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative min-h-[68vh] sm:min-h-[72vh] flex items-center justify-center overflow-hidden pt-24 pb-12">
+    <section className="relative min-h-[60vh] sm:min-h-[72vh] flex items-center justify-center overflow-hidden pt-20 sm:pt-24 pb-10 sm:pb-12">
 
-      {/* Background floral image (full width) */}
+      {/* Background floral image */}
       <div className="absolute inset-0">
         <Image
           src="/images/hero-bg.jpg"
           alt=""
           fill
           priority
+          quality={75}
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Soft cream overlay per leggibilità testo */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cream/30 via-cream/10 to-cream/30 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-cream/40 via-cream/15 to-cream/40 pointer-events-none" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 sm:px-12 max-w-3xl mx-auto">
+      <div className="relative z-10 text-center px-5 sm:px-12 max-w-3xl mx-auto">
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="label-caps text-wine-light mb-5"
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="label-caps text-wine-light mb-4 sm:mb-5"
         >
           Arte Originale
         </motion.p>
 
-        {/* Ornament line */}
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex items-center justify-center gap-3 mb-6"
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="flex items-center justify-center gap-2.5 mb-5 sm:mb-6"
         >
-          <span className="h-px w-8 bg-rose-500" />
+          <span className="h-px w-6 sm:w-8 bg-rose-500" />
           <span className="w-1.5 h-1.5 rotate-45 bg-rose-500" />
-          <span className="h-px w-8 bg-rose-500" />
+          <span className="h-px w-6 sm:w-8 bg-rose-500" />
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="heading-display mb-8"
+          transition={{ duration: 0.9, delay: 0.4 }}
+          className="font-serif text-4xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-tight text-wine mb-5 sm:mb-7"
         >
           {t.home.heroTitle}
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="font-serif text-lg sm:text-xl text-ink/85 font-light leading-relaxed mb-12 whitespace-pre-line"
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="font-serif text-base sm:text-xl text-ink/85 font-light leading-relaxed mb-8 sm:mb-10 whitespace-pre-line px-4"
         >
           {t.home.heroSubtitle}
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1 }}
+          transition={{ duration: 0.6, delay: 0.85 }}
         >
-          <Link href="/shop" className="btn-outline">
+          <Link
+            href="/shop"
+            className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 border border-wine text-wine font-sans text-[11px] sm:text-xs tracking-[0.2em] uppercase hover:bg-wine hover:text-cream transition-all duration-300 rounded-sm min-h-[44px]"
+          >
             {t.home.heroCta}
           </Link>
         </motion.div>

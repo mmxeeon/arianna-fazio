@@ -11,7 +11,7 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="bg-wine text-rose-100 relative overflow-hidden">
+    <footer className="bg-wine text-rose-100 relative overflow-hidden pb-16 sm:pb-0">
       {/* Decorative flower silhouette right */}
       <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 pointer-events-none hidden sm:block">
         <svg viewBox="0 0 200 400" className="h-full w-full" fill="none">
