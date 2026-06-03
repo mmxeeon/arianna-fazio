@@ -103,10 +103,10 @@ export function ImageUploader({
                 <Camera size={22} className="text-wine" strokeWidth={1.5} />
               </div>
               <p className="font-sans text-sm text-wine text-center px-4 leading-relaxed">
-                <span className="underline underline-offset-2">Tocca per caricare</span>
+                <span className="underline underline-offset-2">Tocca per scegliere una foto</span>
                 <span className="hidden sm:inline"><br />o trascina l'immagine</span>
               </p>
-              <p className="font-sans text-[10px] text-ink-light">JPG, PNG, WEBP</p>
+              <p className="font-sans text-[10px] text-ink-light">Galleria o fotocamera · JPG, PNG, WEBP</p>
             </>
           )}
         </div>
@@ -116,7 +116,6 @@ export function ImageUploader({
         ref={inputRef}
         type="file"
         accept="image/*"
-        capture="environment"
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
