@@ -38,12 +38,17 @@ export function ContattiClient() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await fetch('/api/contact', {
+      const body = new URLSearchParams({
+        'form-name': 'contatti',
+        ...data,
+      } as Record<string, string>).toString()
+
+      const res = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
       })
-      if (!res.ok) throw new Error()
+      if (!res.ok) throw new Error('Network error')
       setSent(true)
       reset()
       toast.success(t.contact.success)
@@ -104,7 +109,18 @@ export function ContattiClient() {
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+              <form
+                name="contatti"
+                method="POST"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                onSubmit={handleSubmit(onSubmit)}
+                className="space-y-7"
+              >
+                <input type="hidden" name="form-name" value="contatti" />
+                <p className="hidden">
+                  <label>Non compilare se sei umano: <input name="bot-field" /></label>
+                </p>
                 <Input
                   label="Il tuo nome"
                   placeholder={t.contact.namePlaceholder}
