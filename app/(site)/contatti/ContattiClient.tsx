@@ -43,7 +43,7 @@ export function ContattiClient() {
         ...data,
       } as Record<string, string>).toString()
 
-      const res = await fetch('/', {
+      const res = await fetch('/__forms.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body,
@@ -111,13 +111,9 @@ export function ContattiClient() {
             ) : (
               <form
                 name="contatti"
-                method="POST"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
                 onSubmit={handleSubmit(onSubmit)}
                 className="space-y-7"
               >
-                <input type="hidden" name="form-name" value="contatti" />
                 <p className="hidden">
                   <label>Non compilare se sei umano: <input name="bot-field" /></label>
                 </p>
